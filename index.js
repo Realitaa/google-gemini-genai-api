@@ -3,7 +3,11 @@ import 'dotenv/config';
 import multer from 'multer';
 import path from 'path';
 import fs from 'node:fs';
-import { GoogleGenAI } from "@google/genai";
+import { 
+    GoogleGenAI,
+    createUserContent,
+    createPartFromUri,
+} from "@google/genai";
 
 // Setup storage destination & filename
 const uploadsDir = path.join(process.cwd(), 'uploads');
@@ -28,6 +32,19 @@ const upload = multer({ storage });
 const uploadDoc = multer({
   storage,
   limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+});
+
+// Konfigurasi khusus untuk audio: hanya .mp3, max 20MB
+const uploadAudio = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'audio/mpeg' || file.originalname.endsWith('.mp3')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only .mp3 audio files are allowed!'), false);
+    }
+  },
 });
 
 // Express configuration
@@ -180,6 +197,56 @@ app.post('/generate-from-document', uploadDoc.single('document'), async (req, re
     res.status(500).json({
       status: 'error',
       message: err.message || 'Internal Server Error',
+    });
+  }
+});
+
+app.post('/generate-from-audio', uploadAudio.single('audio'), async (req, res) => {
+  const filePath = req.file?.path;
+
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'No audio file uploaded or invalid file type.',
+      });
+    }
+
+    // Upload file ke Gemini API (asumsi GoogleGenAI versi mendukung upload)
+    const myfile = await ai.files.upload({
+      file: filePath,
+      config: { mimeType: "audio/mp3" },
+    });
+
+    // Buat konten dari file URI + prompt
+    const contents = createUserContent([
+      createPartFromUri(myfile.uri, myfile.mimeType),
+      "Describe this audio clip in 3 sentences.",
+    ]);
+
+    const result = await genAI(contents);
+
+    res.json({
+      status: 'success',
+      result,
+    });
+
+    // Hapus file lokal setelah sukses
+    fs.unlink(filePath, (err) => {
+      if (err) console.error('Gagal menghapus file audio:', err);
+    });
+  } catch (error) {
+    console.error('Error di /generate-from-audio:', error);
+
+    if (filePath) {
+      fs.unlink(filePath, (err) => {
+        if (err) console.error('Gagal hapus file setelah error:', err);
+      });
+    }
+
+    res.status(500).json({
+      status: 'error',
+      message: error.message || 'Internal Server Error',
     });
   }
 });
