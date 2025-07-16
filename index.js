@@ -24,6 +24,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Batasi file max 20MB
+const uploadDoc = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+});
+
 // Express configuration
 const app = express();
 app.use(express.json());
@@ -113,7 +119,6 @@ app.post('/generate-from-image', upload.single('image'), async (req, res) => {
       }
     });
   } catch (err) {
-    console.error('Error in /generate-from-image:', err);
     res.status(500).json({
       status: 'error',
       message: err.message || 'Internal Server Error',
@@ -127,6 +132,57 @@ app.post('/generate-from-image', upload.single('image'), async (req, res) => {
     }
   }
 });  
+
+app.post('/generate-from-document', uploadDoc.single('document'), async (req, res) => {
+  const filePath = req.file?.path;
+
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'No document uploaded.',
+      });
+    }
+
+    // Baca dokumen dan ubah ke base64
+    const fileBuffer = fs.readFileSync(filePath);
+    const base64 = fileBuffer.toString("base64");
+
+    const contents = [
+      { text: "Summarize this document in 3 sentences." },
+      {
+        inlineData: {
+          mimeType: req.file.mimetype || 'application/pdf',
+          data: base64,
+        },
+      },
+    ];
+
+    const result = await genAI(contents);
+
+    res.json({
+      status: 'success',
+      result,
+    });
+
+    // Hapus file setelah berhasil
+    fs.unlink(filePath, (err) => {
+      if (err) console.error('Gagal menghapus file:', err);
+    });
+  } catch (err) {
+    // Hapus file jika sempat diupload
+    if (filePath) {
+      fs.unlink(filePath, (unlinkErr) => {
+        if (unlinkErr) console.error('Gagal menghapus file saat error:', unlinkErr);
+      });
+    }
+
+    res.status(500).json({
+      status: 'error',
+      message: err.message || 'Internal Server Error',
+    });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Gemini API server is running at http://localhost:${port}`);
