@@ -43,7 +43,7 @@ Follow these instructions to get a local copy up and running.
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/Realitaa/gemini-flash-api.git
+    git clone https://github.com/Realitaa/google-gemini-genai-api.git
     cd google-gemini-genai-api
     ```
 
