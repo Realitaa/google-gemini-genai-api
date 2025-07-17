@@ -55,10 +55,11 @@ const uploadDoc = multer({
 // Upload audio configuration
 const uploadAudio = multer({
   storage,
-  // Max audio size 20MB to match other configuration.
+  // Max size 20MB including audio and prompt: https://ai.google.dev/gemini-api/docs/audio?hl=id#inline-audio
   // Technical detail: https://ai.google.dev/gemini-api/docs/audio#technical-details
-  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+  limits: { fileSize: 18 * 1024 * 1024 }, // Max 18MB for file only, 2MB reserved for body or header
   fileFilter: (req, file, cb) => {
+    // Supported audio format: https://ai.google.dev/gemini-api/docs/audio#supported-formats
     const allowedTypes = ['audio/wav', 'audio/mpeg', 'audio/mp3', 'audio/aiff', 'audio/aac', 'audio/ogg', 'audio/flac'];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
