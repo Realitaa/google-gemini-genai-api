@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "6573b993-3402-484c-84e4-c573efec45de",
+		"name": "Gemini API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello Gemini",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000",
+					"host": [
+						"localhost"
+					],
+					"port": "3000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Response from Text",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"prompt\": \"Explain how AI works in a few words.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/generate-text",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"generate-text"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Response from Image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"description": "Required: Image file, max. 18MB.",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "prompt",
+							"value": "",
+							"description": "Optional: Prompt for model",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/generate-from-image",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"generate-from-image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Response from Document",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "document",
+							"description": "Required: Document File",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "prompt",
+							"value": "",
+							"description": "Optional: Prompt for model",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/generate-from-document",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"generate-from-document"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Response from Audio",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "audio",
+							"description": "Required: Audio file, max. 18MB",
+							"type": "file",
+							"src": []
+						},
+						{
+							"key": "prompt",
+							"value": "",
+							"description": "Optional: Prompt for model",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/generate-from-audio",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"generate-from-audio"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
