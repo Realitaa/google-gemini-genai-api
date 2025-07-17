@@ -91,6 +91,11 @@ Generates a text response from a given text prompt.
 - **URL**: `/generate-text`
 - **Method**: `POST`
 - **Body**: `application/json`
+  ```json
+  {
+    "prompt": "Explain how AI works in a few words."
+  }
+  ```
 
 ### Generate from Image
 
@@ -99,7 +104,7 @@ Generates a text response based on an image and an optional text prompt.
 - **URL**: `/generate-from-image`
 - **Method**: `POST`
 - **Body**: `multipart/form-data`
-  - `prompt` (string, optional): The question or instruction related to the image.
+  - `prompt` (string, optional): The question or instruction related to the image (e.g., "Describe this image in 3 sentences.").
   - `image` (file): The image file (e.g., .png, .jpeg).
 
 ### Generate from Document
@@ -109,7 +114,7 @@ Generates a text response (e.g., a summary) from a document and a prompt.
 - **URL**: `/generate-from-document`
 - **Method**: `POST`
 - **Body**: `multipart/form-data`
-  - `prompt` (string): The question or instruction for the document (e.g., "Summarize this document").
+  - `prompt` (string, optional): The question or instruction for the document (e.g., "Summarize this document in 3 sentences.").
   - `document` (file): The document file.
 
 ### Generate from Audio
@@ -119,7 +124,7 @@ Generates a text response by transcribing or summarizing an audio file.
 - **URL**: `/generate-from-audio`
 - **Method**: `POST`
 - **Body**: `multipart/form-data`
-  - `prompt` (string): The instruction for the audio (e.g., "Transcribe this audio").
+  - `prompt` (string, optional): The instruction for the audio (e.g., "Transcribe this audio in 3 sentences.").
   - `audio` (file): The audio file (e.g., .mp3, .wav, .mpeg).
 
 ## Testing
