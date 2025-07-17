@@ -127,7 +127,7 @@ Generates a text response by transcribing or summarizing an audio file.
 A Postman collection is included in the repository to make testing the API endpoints straightforward.
 
 1.  Open your Postman application.
-2.  Import the [`Gemini Flash API.postman_collection.json`](test/) file from the project's root directory.
+2.  Import the [`Gemini API.postman_collection.json`](test/) file to your Postman collection.
 3.  You can now use the pre-configured requests to test each endpoint. Ensure your local server is running.
 
 ## Sample
