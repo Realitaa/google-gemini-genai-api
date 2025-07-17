@@ -15,6 +15,7 @@ A simple Node.js and Express.js REST API for interacting with Google's Gemini Ge
   - [Generate from Document](#generate-from-document)
   - [Generate from Audio](#generate-from-audio)
 - [Testing](#testing)
+- [Sample](#sample)
 - [License](#license)
 
 ## About The Project
@@ -128,6 +129,10 @@ A Postman collection is included in the repository to make testing the API endpo
 1.  Open your Postman application.
 2.  Import the [`Gemini Flash API.postman_collection.json`](test/) file from the project's root directory.
 3.  You can now use the pre-configured requests to test each endpoint. Ensure your local server is running.
+
+## Sample
+
+I have prepared document, image and audio for testing purpose [here](sample/).
 
 ## License
 
