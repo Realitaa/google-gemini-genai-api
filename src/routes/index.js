@@ -7,7 +7,7 @@ import { uploadImg, uploadDoc, uploadAudio } from '../config/multer.js';
 
 const router = express.Router();
 
-router.get('/', (res) => res.send('Hello Gemini! Read README.md in root file for instruction.'));
+router.get('/', (req, res) => res.send('Hello Gemini! Read README.md in root file for instruction.'));
 router.post('/generate-text', generateText);
 router.post('/generate-from-image', uploadImg.single('image'), generateFromImage);
 router.post('/generate-from-document', uploadDoc.single('document'), generateFromDocument);
