@@ -1,7 +1,6 @@
-import { ai } from "../config/gemini.js";
-import { createUserContent, createPartFromUri } from "@google/genai";
 import { genAI } from "../utils/genAI.js";
 import { deleteFile } from '../utils/deleteFile.js';
+import fs from 'node:fs';
 
 export async function generateFromAudio(req, res) {
     // Get the audio path
