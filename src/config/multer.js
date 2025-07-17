@@ -59,7 +59,7 @@ const uploadAudio = multer({
   // Technical detail: https://ai.google.dev/gemini-api/docs/audio#technical-details
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
   fileFilter: (req, file, cb) => {
-    const allowedTypes = ['audio/wav', 'audio/mp3', 'audio/aiff', 'audio/aac', 'audio/ogg', 'audio/flac'];
+    const allowedTypes = ['audio/wav', 'audio/mpeg', 'audio/mp3', 'audio/aiff', 'audio/aac', 'audio/ogg', 'audio/flac'];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
